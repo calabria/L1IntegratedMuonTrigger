@@ -45,7 +45,10 @@ def reRunDttf( process ):
     #process.csctfTrackDigis.SectorReceiverInput = cms.untracked.InputTag("simMuonCSCDigis")
     process.csctfTrackDigis.SectorReceiverInput = cms.untracked.InputTag("csctfDigis")
     process.csctfTrackDigis.DTproducer = cms.untracked.InputTag("dttfDigis")
-    process.gmtDigis.DTCandidates = cms.InputTag("dttfTrackDigis")
+    process.gmtDigis.DTCandidates = cms.InputTag("dttfTrackDigis","DT")
+    process.gmtDigis.RPCbCandidates = cms.InputTag("gtDigis","RPCb")
+    process.gmtDigis.RPCfCandidates = cms.InputTag("gtDigis","RPCf")
+    process.gmtDigis.CSCCandidates  = cms.InputTag("gtDigis","CSC")
     process.RawToDigiL1MuonEmulator = cms.Sequence( process.RawToDigi
                                                     * process.csctfTrackDigis
                                                     * process.dttfTrackDigis
