@@ -42,6 +42,8 @@ def reRunDttf( process ):
     from L1Trigger.DTTrackFinder.dttfDigis_cfi import dttfDigis as dttfTrackFinder
     process.dttfTrackDigis = dttfTrackFinder.clone()
     process.dttfTrackDigis.DTDigi_Source = cms.InputTag("dttfDigis")
+    if hasattr(process.dttfTrackDigis, 'DTDigi_Theta_Source'):
+        process.dttfTrackDigis.DTDigi_Theta_Source = cms.InputTag("dttfDigis") 
     #process.csctfTrackDigis.SectorReceiverInput = cms.untracked.InputTag("simMuonCSCDigis")
     process.csctfTrackDigis.SectorReceiverInput = cms.untracked.InputTag("csctfDigis")
     process.csctfTrackDigis.DTproducer = cms.untracked.InputTag("dttfDigis")
@@ -62,4 +64,7 @@ def reRunDttf( process ):
     # process.deGmt.replace(process.valGmtDigis, process.gmtDigis)
     process.RECOSIMoutput.outputCommands.extend( ['keep *_dttfDigis_*_*', 
                                                   'keep *_dttfTrackDigis_*_*', 
+                                                  'keep *_gmtDigis_*_*'] )
+    process.AODSIMoutput.outputCommands.extend( ['keep *_dttfDigis_*_*',
+                                                  'keep *_dttfTrackDigis_*_*',
                                                   'keep *_gmtDigis_*_*'] )
