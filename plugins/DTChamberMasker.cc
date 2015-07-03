@@ -267,7 +267,7 @@ void
 DTChamberMasker::createMaskedChamberCollection(edm::ESHandle<DTGeometry> & dtGeom)
 {
 
-  const std::vector<const DTChamber*>& chambers = dtGeom->chambers();
+  const std::vector<DTChamber*> chambers = dtGeom->chambers();
 
   for ( const DTChamber *ch : chambers)
    {
