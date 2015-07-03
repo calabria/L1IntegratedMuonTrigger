@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-from MuonAnalysis.DTChamberMasker.DTChamberMasker_cfi import DTChamberMasker
+from L1Trigger.L1IntegratedMuonTrigger.DTChamberMasker_cfi import DTChamberMasker
 
 def appendChamberMaskerAtUnpacking(process, doDigis, doTrigger, chambRegEx):
 

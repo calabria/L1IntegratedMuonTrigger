@@ -122,6 +122,8 @@ appendRPCChamberMaskerAtUnpacking(process,True,[637570221,637602989,637635757,63
 
 #--------------------------------------------------------------------------
 
+reRunDttf( process )
+
 # customisation of the process.
 
 # Automatic addition of the customisation function from RecoParticleFlow.PandoraTranslator.customizeHGCalPandora_cff

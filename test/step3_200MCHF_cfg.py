@@ -136,9 +136,8 @@ newlist28percent=[
                   "WH0_ST2_SEC2","WH0_ST3_SEC5","WH0_ST4_SEC12","WH1_ST1_SEC6","WH1_ST1_SEC10","WH1_ST3_SEC3"
                   ]
 
-from L1IntegratedMuonTrigger.DTChamberMasker_cff import *
+from L1Trigger.L1IntegratedMuonTrigger.DTChamberMasker_cff import *
 appendChamberMaskerAtUnpacking(process,True,True,newlist28percent)
-reRunDttf( process )
 
 #--------------------------------------------------------------------------
 # RPC aging
@@ -151,6 +150,7 @@ appendRPCChamberMaskerAtUnpacking(process,True,[637570221,637602989,637635757,63
 
 #--------------------------------------------------------------------------
 
+reRunDttf( process )
 
 # customisation of the process.
 
