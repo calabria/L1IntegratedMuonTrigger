@@ -101,6 +101,29 @@ process.mix.input.fileNames = cms.untracked.vstring(['/store/mc/TP2023HGCALGS/Mi
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'PH2_1K_FB_V6::All', '')
 
+#--------------------------------------------------------------------------
+# CSC aging
+
+process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+                                                   csc2DRecHitsOverload = cms.PSet(
+                                                                                   initialSeed = cms.untracked.uint32(81)
+                                                                                   ),
+                                                   )
+
+process.csc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
+                                              cscRecHitTag = cms.InputTag("csc2DRecHits"),
+                                              failureRate = cms.untracked.double(0.3),
+                                              doUniformFailure = cms.untracked.bool(True),
+                                              doCFEBFailure = cms.untracked.bool(True),
+                                              )
+
+# change input to cscSegments
+process.cscSegments.inputObjects = "csc2DRecHitsOverload"
+
+process.csclocalreco += process.csc2DRecHitsOverload
+
+#--------------------------------------------------------------------------
+
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)
 process.L1Reco_step = cms.Path(process.L1Reco)
@@ -117,12 +140,9 @@ process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,proces
 from L1Trigger.L1IntegratedMuonTrigger.RPCChamberMasker_cff import *
 appendRPCChamberMaskerAtUnpacking(process,True,[637570221,637602989,637635757,637569201,637634737,637571545,637571677,637637213,637567793,637600561,637633329,637566989,637632525,637566993,637632529,637569037,637634573,637571565,637637101,637571449,637636985,637572317,637637853,637568057,637600825,637633593,637568025,637633561,637567381,637632917,637571805,637637341,637569325,637602093,637634861,637572569,637638105,637571569,637637105,637567065,637632601,637570229,637635765,637567285,637600053,637632821,637572589,637638125,637571157,637636693,637570485,637636021,637571181,637636717,637567069,637632605,637570365,637603133,637635901,637570481,637636017,637572445,637637981,637567005,637632541,637567373,637632909,637568509,637634045,637569425,637634961,637572561,637638097,637568409,637633945,637571281,637636817,637569973,637635509,637567157,637599925,637632693,637571197,637636733,637571321,637636857,637570237,637603005,637635773,637569453,637602221,637634989,637569977,637635513,637568305,637601073,637633841,637570097,637635633,637570197,637635733,637569709,637602477,637635245,637571161,637636697,637572429,637637965,637567669,637600437,637633205,637572045,637637581,637568301,637633837,637567213,637632749,637567801,637600569,637633337,637568053,637600821,637633589,637570109,637602877,637635645,637567965,637633501,637567993,637633529,637637081,637571193,637636729,637567281,637600049,637632817,637567469,637633005,637567953,637633489,637568177,637600945,637633713])
 
-#--------------------------------------------------------------------------
-# CSC aging
-
-#--------------------------------------------------------------------------
-
 reRunDttf( process )
+
+#--------------------------------------------------------------------------
 
 # customisation of the process.
 
