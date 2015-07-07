@@ -117,10 +117,10 @@ process.csc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
     doCFEBFailure = cms.untracked.bool(True),
 )
 
+process.csclocalreco = cms.Sequence(process.csc2DRecHits*process.csc2DRecHitsOverload*process.cscSegments)
+
 # change input to cscSegments
 process.cscSegments.inputObjects = "csc2DRecHitsOverload"
-
-process.csclocalreco += process.csc2DRecHitsOverload
 
 #--------------------------------------------------------------------------
 
