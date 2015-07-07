@@ -28,7 +28,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
                             secondaryFileNames = cms.untracked.vstring(),
-                            fileNames = cms.untracked.vstring('/store/mc/TP2023HGCALDR/GluGluToHToZZTo4m_M-125_14TeV-powheg-pythia6/GEN-SIM-DIGI-RAW/HGCAL_PU140BX25ForDT_newsplitPU140_PH2_1K_FB_V6-v1/50000/003B146F-9E0C-E511-9E69-0025905B85F6.root')
+                            fileNames = cms.untracked.vstring('file:/tmp/calabria/003B146F-9E0C-E511-9E69-0025905B85F6.root')
                             )
 
 process.options = cms.untracked.PSet(
@@ -104,23 +104,23 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'PH2_1K_FB_V6::All', '')
 #--------------------------------------------------------------------------
 # CSC aging
 
-process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-                                                   csc2DRecHitsOverload = cms.PSet(
-                                                                                   initialSeed = cms.untracked.uint32(81)
-                                                                                   ),
-                                                   )
-
-process.csc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
-                                              cscRecHitTag = cms.InputTag("csc2DRecHits"),
-                                              failureRate = cms.untracked.double(0.3),
-                                              doUniformFailure = cms.untracked.bool(True),
-                                              doCFEBFailure = cms.untracked.bool(True),
-                                              )
-
-process.csclocalreco = cms.Sequence(process.csc2DRecHits*process.csc2DRecHitsOverload*process.cscSegments)
-
-# change input to cscSegments
-process.cscSegments.inputObjects = "csc2DRecHitsOverload"
+#process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+#    csc2DRecHitsOverload = cms.PSet(
+#        initialSeed = cms.untracked.uint32(81)
+#    ),
+#)
+#
+#process.csc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
+#    cscRecHitTag = cms.InputTag("csc2DRecHits"),
+#    failureRate = cms.untracked.double(0.3),
+#    doUniformFailure = cms.untracked.bool(True),
+#    doCFEBFailure = cms.untracked.bool(True),
+#)
+#
+#process.csclocalreco = cms.Sequence(process.csc2DRecHits*process.csc2DRecHitsOverload*process.cscSegments)
+#
+## change input to cscSegments
+#process.cscSegments.inputObjects = "csc2DRecHitsOverload"
 
 #--------------------------------------------------------------------------
 
