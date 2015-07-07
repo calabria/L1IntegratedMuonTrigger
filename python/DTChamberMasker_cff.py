@@ -40,11 +40,14 @@ def reRunDttf( process ):
     process.load ( "L1Trigger.CSCTrackFinder.csctfTrackDigis_cfi")
     process.load("L1Trigger.CSCTriggerPrimitives.cscTriggerPrimitiveDigisPostLS1_cfi")
     process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-                                                       cscTriggerPrimitiveDigisPostLS1 = cms.PSet(
-        initialSeed = cms.untracked.uint32(789342)
+        cscTriggerPrimitiveDigisPostLS1 = cms.PSet(
+            initialSeed = cms.untracked.uint32(789342)
 
-        )
-)
+        ),
+        csc2DRecHitsOverload = cms.PSet(
+            initialSeed = cms.untracked.uint32(81)
+        ),
+    )
     from L1Trigger.DTTrackFinder.dttfDigis_cfi import dttfDigis as dttfTrackFinder
     process.dttfTrackDigis = dttfTrackFinder.clone()
     process.dttfTrackDigis.DTDigi_Source = cms.InputTag("dttfDigis")

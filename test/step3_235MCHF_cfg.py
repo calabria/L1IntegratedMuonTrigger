@@ -104,23 +104,24 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'PH2_1K_FB_V6::All', '')
 #--------------------------------------------------------------------------
 # CSC aging
 
-#process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-#    csc2DRecHitsOverload = cms.PSet(
-#        initialSeed = cms.untracked.uint32(81)
-#    ),
-#)
-#
-#process.csc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
-#    cscRecHitTag = cms.InputTag("csc2DRecHits"),
-#    failureRate = cms.untracked.double(0.3),
-#    doUniformFailure = cms.untracked.bool(True),
-#    doCFEBFailure = cms.untracked.bool(True),
-#)
-#
-#process.csclocalreco = cms.Sequence(process.csc2DRecHits*process.csc2DRecHitsOverload*process.cscSegments)
-#
-## change input to cscSegments
-#process.cscSegments.inputObjects = "csc2DRecHitsOverload"
+process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+    csc2DRecHitsOverload = cms.PSet(
+        initialSeed = cms.untracked.uint32(81)
+    ),
+)
+
+process.csc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
+    cscRecHitTag = cms.InputTag("csc2DRecHits"),
+    failureRate = cms.untracked.double(0.15),
+    doUniformFailure = cms.untracked.bool(True),
+    doCFEBFailure = cms.untracked.bool(True),
+)
+
+# change input to cscSegments
+process.cscSegments.inputObjects = "csc2DRecHitsOverload"
+
+process.csclocalreco.replace(process.cscSegments, process.csc2DRecHitsOverload)
+process.csclocalreco += process.cscSegments
 
 #--------------------------------------------------------------------------
 
