@@ -66,7 +66,7 @@ process.load('RecoLocalMuon.CSCRecHitD.cscRecHitD_cfi')
 #235 MCHF: GE2/1 + RE3/1 + RE4/1 switched off
 process.csc2DRecHits.stationToUse = cms.untracked.int32(0)
 process.rpcRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(0)
-process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(0)
+process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(1)
 
 #--------------------------------------------------------------------------
 
