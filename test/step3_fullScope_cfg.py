@@ -28,7 +28,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:/tmp/calabria/003B146F-9E0C-E511-9E69-0025905B85F6.root')
+    fileNames = cms.untracked.vstring('file:/lustre/cms/store/mc/TP2023HGCALDR/GluGluToHToZZTo4m_M-125_14TeV-powheg-pythia6/GEN-SIM-DIGI-RAW/HGCAL_PU140BX25ForDT_newsplitPU140_PH2_1K_FB_V6-v1/50000/003B146F-9E0C-E511-9E69-0025905B85F6.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -48,7 +48,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('file:HIG-TP2023HGCALDR-00029.root'),
+    fileName = cms.untracked.string('file:/lustre/cms/store/user/calabria/step3_fullScope.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO')

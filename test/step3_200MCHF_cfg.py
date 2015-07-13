@@ -83,7 +83,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
                                          splitLevel = cms.untracked.int32(0),
                                          eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
                                          outputCommands = process.RECOSIMEventContent.outputCommands,
-                                         fileName = cms.untracked.string('file:/lustre/cms/store/user/calabria/step3.root'),
+                                         fileName = cms.untracked.string('file:/lustre/cms/store/user/calabria/step3_2.root'),
                                          dataset = cms.untracked.PSet(
                                                                       filterName = cms.untracked.string(''),
                                                                       dataTier = cms.untracked.string('GEN-SIM-RECO')
@@ -138,7 +138,8 @@ process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,proces
 #--------------------------------------------------------------------------
 # DT aging
 
-newlist28percent=[
+from L1Trigger.L1IntegratedMuonTrigger.DTChamberMasker_cff import *
+appendChamberMaskerAtUnpacking(process,True,True,[
     # MB4 of top sectors
     "WH-2_ST4_SEC2","WH-2_ST4_SEC3","WH-2_ST4_SEC4","WH-2_ST4_SEC5","WH-2_ST4_SEC6",
     "WH-1_ST4_SEC2","WH-1_ST4_SEC3","WH-1_ST4_SEC4","WH-1_ST4_SEC5","WH-1_ST4_SEC6",
@@ -158,10 +159,7 @@ newlist28percent=[
     # more sparse failures
     "WH-2_ST2_SEC8","WH-1_ST1_SEC1","WH-1_ST2_SEC1","WH-1_ST1_SEC4","WH-1_ST3_SEC7",
     "WH0_ST2_SEC2","WH0_ST3_SEC5","WH0_ST4_SEC12","WH1_ST1_SEC6","WH1_ST1_SEC10","WH1_ST3_SEC3"
-    ]
-
-from L1Trigger.L1IntegratedMuonTrigger.DTChamberMasker_cff import *
-appendChamberMaskerAtUnpacking(process,True,True,newlist28percent)
+    ])
 
 #--------------------------------------------------------------------------
 # RPC aging
