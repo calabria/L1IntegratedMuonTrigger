@@ -128,9 +128,9 @@ RPCChamberMasker::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
           if(std::find(m_maskedRPCIDs.begin(),m_maskedRPCIDs.end(),id)==m_maskedRPCIDs.end()){
               filteredDigis->put((*rpcLayerIdIt).second,(*rpcLayerIdIt).first);
               //std::cout<<"Passed"<<" size "<<m_maskedRPCIDs.size()<<std::endl;
-	      }
+          }
 	      //else {std::cout<<"Filtered"<<std::endl;}
-	  }
+      }
       iEvent.put(filteredDigis);
     } 
 }
