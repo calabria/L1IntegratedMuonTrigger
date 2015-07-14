@@ -117,12 +117,12 @@ RPCChamberMasker::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
       
       for (; rpcLayerIdIt != rpcLayerIdEnd; ++rpcLayerIdIt)
 	  {
-	  	  //std::cout<<"==========================================="<<std::endl;
-	  	  //std::cout<<"Digi"<<std::endl;
-	  	  //std::cout<<"DetId\t"<<((*rpcLayerIdIt).first).chamberId().rawId()<<'\t'<<((*rpcLayerIdIt).first)<<std::endl;
+          //std::cout<<"==========================================="<<std::endl;
+          //std::cout<<"Digi"<<std::endl;
+          //std::cout<<"DetId\t"<<((*rpcLayerIdIt).first).chamberId().rawId()<<'\t'<<((*rpcLayerIdIt).first)<<std::endl;
           //std::cout<<"DetId\t"<<((*rpcLayerIdIt).first).rawId()<<'\t'<<((*rpcLayerIdIt).first)<<std::endl;
 
-	      //int id = ((*rpcLayerIdIt).first).chamberId().rawId();
+          //int id = ((*rpcLayerIdIt).first).chamberId().rawId();
           int id = ((*rpcLayerIdIt).first).rawId();
         
 	      if(std::find(m_maskedRPCIDs.begin(),m_maskedRPCIDs.end(),id)==m_maskedRPCIDs.end()){
