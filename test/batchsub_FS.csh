@@ -7,4 +7,4 @@ cd /cmshome/calabria/ValidazioneOfficial2/CMSSW_6_2_0_SLHC26_patch2/src/L1Trigge
 setenv SCRAM_ARCH slc6_amd64_gcc472
 eval `scramv1 runtime -csh`
 #echo `pwd`
-cmsRun /cmshome/calabria/ValidazioneOfficial2/CMSSW_6_2_0_SLHC26_patch2/src/L1Trigger/L1IntegratedMuonTrigger/test/step3_200MCHF_cfg.py
+cmsRun /cmshome/calabria/ValidazioneOfficial2/CMSSW_6_2_0_SLHC26_patch2/src/L1Trigger/L1IntegratedMuonTrigger/test/step3_fullScope_cfg.py

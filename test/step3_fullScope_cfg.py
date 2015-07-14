@@ -35,6 +35,41 @@ process.options = cms.untracked.PSet(
 
 )
 
+#--------------------------------------------------------------------------
+
+# CSC
+# case 0  :: all detectors in
+# case 1  :: ME1/1 switched off
+# case 2  :: ME2/1 switched off
+# case 3  :: ME3/1 switched off
+# case 4  :: ME4/1 switched off
+# default :: all detectors in
+
+# RPC
+# case 0  :: NO RPC Upgrade
+# case 1  :: RE3/1 switched off
+# case 2  :: RE4/1 switched off
+# case 3  :: RPC Upgrade switched on
+# default :: all detectors in
+
+#GEM
+# case 0  :: all detectors off
+# case 1  :: GE1/1 switched on
+# case 2  :: GE2/1 switched on
+# case 3  :: all detectors in
+# default :: all detectors in
+
+process.load('RecoLocalMuon.RPCRecHit.rpcRecHits_cfi')
+process.load('RecoLocalMuon.GEMRecHit.gemRecHits_cfi')
+process.load('RecoLocalMuon.CSCRecHitD.cscRecHitD_cfi')
+
+#235 MCHF: RE3/1 + RE4/1 switched off
+process.csc2DRecHits.stationToUse = cms.untracked.int32(0)
+process.rpcRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
+process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
+
+#--------------------------------------------------------------------------
+
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.20 $'),
