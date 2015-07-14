@@ -1,7 +1,7 @@
 #!/bin/csh
 
-set i = 10
-while ($i<20)
+set i = 0
+while ($i<700)
 ./script.csh $i
 @ i++
 end
