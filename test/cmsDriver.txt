@@ -1,0 +1,59 @@
+cmsDriver.py step3 --filein file:out_raw.root \
+--fileout file:out_reco.root \
+--mc \
+--eventcontent RECOSIM \
+--customise \
+RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.fullScope \
+--datatier GEN-SIM-RECO \
+--conditions PH2_1K_FB_V6::All \
+--step RAW2DIGI,L1Reco,RECO,HLT \
+--magField 38T_PostLS1 \
+--geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
+--python_filename step3_fullScope_HLT_RECO_cfg.py \
+--no_exec \
+-n 10
+
+cmsDriver.py step3 --filein file:out_raw.root \
+--fileout file:out_reco.root \
+--mc \
+--eventcontent RECOSIM \
+--customise \
+RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.fullScopeAging \
+--datatier GEN-SIM-RECO \
+--conditions PH2_1K_FB_V6::All \
+--step RAW2DIGI,L1Reco,RECO,HLT \
+--magField 38T_PostLS1 \
+--geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
+--python_filename step3_fullScopeAging_HLT_RECO_cfg.py \
+--no_exec \
+-n 10
+
+cmsDriver.py step3 --filein file:out_raw.root \
+--fileout file:out_reco.root \
+--mc \
+--eventcontent RECOSIM \
+--customise \
+RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.descope200MCHF \
+--datatier GEN-SIM-RECO \
+--conditions PH2_1K_FB_V6::All \
+--step RAW2DIGI,L1Reco,RECO,HLT \
+--magField 38T_PostLS1 \
+--geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
+--python_filename step3_descope200MCHF_HLT_RECO_cfg.py \
+--no_exec \
+-n 10
+
+cmsDriver.py step3 --filein file:out_raw.root \
+--fileout file:out_reco.root \
+--mc \
+--eventcontent RECOSIM \
+--customise \
+RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.descope235MCHF \
+--datatier GEN-SIM-RECO \
+--conditions PH2_1K_FB_V6::All \
+--step RAW2DIGI,L1Reco,RECO,HLT \
+--magField 38T_PostLS1 \
+--geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
+--python_filename step3_descope235MCHF_HLT_RECO_cfg.py \
+--no_exec \
+-n 10
