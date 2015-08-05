@@ -32,6 +32,33 @@ def rpcAging(process):
     
     reRunDttf( process ) 
     return process
+    
+def dtAging(process):
+    # DT aging
+
+    from L1Trigger.L1IntegratedMuonTrigger.DTChamberMasker_cff import *
+    appendChamberMaskerAtUnpacking(process,True,True,[
+    # MB4 of top sectors
+    "WH-2_ST4_SEC2","WH-2_ST4_SEC3","WH-2_ST4_SEC4","WH-2_ST4_SEC5","WH-2_ST4_SEC6",
+    "WH-1_ST4_SEC2","WH-1_ST4_SEC3","WH-1_ST4_SEC4","WH-1_ST4_SEC5","WH-1_ST4_SEC6",
+    "WH0_ST4_SEC2","WH0_ST4_SEC3","WH0_ST4_SEC4","WH0_ST4_SEC5","WH0_ST4_SEC6",
+    "WH1_ST4_SEC2","WH1_ST4_SEC3","WH1_ST4_SEC4","WH1_ST4_SEC5","WH1_ST4_SEC6",
+    "WH2_ST4_SEC2","WH2_ST4_SEC3","WH2_ST4_SEC4","WH2_ST4_SEC5","WH2_ST4_SEC6",
+    # MB1 of external wheels
+    "WH-2_ST1_SEC1","WH-2_ST1_SEC2","WH-2_ST1_SEC3","WH-2_ST1_SEC4",
+    "WH-2_ST1_SEC5","WH-2_ST1_SEC6","WH-2_ST1_SEC7","WH-2_ST1_SEC8",
+    "WH-2_ST1_SEC9","WH-2_ST1_SEC10","WH-2_ST1_SEC11","WH-2_ST1_SEC12",
+    "WH2_ST1_SEC1","WH2_ST1_SEC2","WH2_ST1_SEC3","WH2_ST1_SEC4",
+    "WH2_ST1_SEC5","WH2_ST1_SEC6","WH2_ST1_SEC7","WH2_ST1_SEC8",
+    "WH2_ST1_SEC9","WH2_ST1_SEC10","WH2_ST1_SEC11","WH2_ST1_SEC12",
+    # 5 MB2s of external wheels
+    "WH2_ST2_SEC3","WH2_ST2_SEC6","WH2_ST2_SEC9",
+    "WH-2_ST2_SEC2","WH-2_ST2_SEC4",
+    # more sparse failures
+    "WH-2_ST2_SEC8","WH-1_ST1_SEC1","WH-1_ST2_SEC1","WH-1_ST1_SEC4","WH-1_ST3_SEC7",
+    "WH0_ST2_SEC2","WH0_ST3_SEC5","WH0_ST4_SEC12","WH1_ST1_SEC6","WH1_ST1_SEC10","WH1_ST3_SEC3"
+    ])
+    return process
 
 def loadMuonRecHits(process):
     process.load('RecoLocalMuon.RPCRecHit.rpcRecHits_cfi')
@@ -96,6 +123,7 @@ def descope200MCHF(process):
     process = descope200MCHFDetectors(process)
     process = cscAging(process)
     process = rpcAging(process)
+    process = dtAging(process)
     return process
 
 def descope235MCHF(process):
