@@ -18,9 +18,13 @@ def cscAging(process):
     
     # change input to cscSegments
     process.cscSegments.inputObjects = "csc2DRecHitsOverload"
-    
-    process.csclocalreco.replace(process.cscSegments, process.csc2DRecHitsOverload)
-    process.csclocalreco += process.cscSegments    
+
+    # make a new collection of reduced rechits and feed those into the csc segment producer
+    process.csclocalreco = cms.Sequence(
+        process.csc2DRecHits+
+        process.csc2DRecHitsOverload+
+        process.cscSegments
+    )
     return process
 
 def rpcAging(process):
@@ -92,6 +96,7 @@ def fullScopeDetectors(process):
     process.csc2DRecHits.stationToUse = cms.untracked.int32(0)
     process.rpcRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
     process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
+    return process
 
 def descope200MCHFDetectors(process):
     #200 MCHF: GE2/1 + RE3/1 + RE4/1 switched off
@@ -109,6 +114,27 @@ def descope235MCHFDetectors(process):
     process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
     return process
 
+def applyAgingToL2Mu(process):
+    print process.hltL2Muons
+    # RPC
+    # The aging for the RPC system is applied to the digis
+    # but the packing/unpacking does not work
+    # so we need to pass the simMuonRPCDigis to the hltRpcRecHits
+    process.hltRpcRecHits.rpcDigiLabel = "simMuonRPCDigis"
+    
+    # CSC
+    # The aging is applied to the rechits
+    # so we need to pass the reduced collection (csc2DRecHitsOverload) to the hltCSCSegments
+    # this is already done in the aging functions above, so we only need to change the inputs
+    # to the L2Mu reconstruction
+    process.hltL2Muons.L2TrajBuilderParameters.FilterParameters.CSCRecSegmentLabel = 'cscSegments' 
+
+    # DT
+    # The aging is applied to the digis
+    # We assume the packing/unpacking works, so nothing needs to be done
+    
+    return process
+
 def fullScope(process):
     process = fullScopeDetectors(process)
     return process
@@ -117,6 +143,7 @@ def fullScopeAging(process):
     process = fullScopeDetectors(process)
     process = cscAging(process)
     process = rpcAging(process)
+    process = applyAgingToL2Mu(process)
     return process
  
 def descope200MCHF(process):
