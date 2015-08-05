@@ -115,7 +115,6 @@ def descope235MCHFDetectors(process):
     return process
 
 def applyAgingToL2Mu(process):
-    print process.hltL2Muons
     # RPC
     # The aging for the RPC system is applied to the digis
     # but the packing/unpacking does not work
