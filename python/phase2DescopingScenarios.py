@@ -151,10 +151,12 @@ def descope200MCHF(process):
     process = cscAging(process)
     process = rpcAging(process)
     process = dtAging(process)
+    process = applyAgingToL2Mu(process)
     return process
 
 def descope235MCHF(process):
     process = descope235MCHFDetectors(process)
     process = cscAging(process)
     process = rpcAging(process)
+    process = applyAgingToL2Mu(process)
     return process
