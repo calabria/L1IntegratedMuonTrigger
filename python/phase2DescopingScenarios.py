@@ -27,6 +27,39 @@ def cscAging(process):
     )
     return process
 
+def hltCscAging(process):
+    # CSC aging
+    
+    process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+            hltCsc2DRecHitsOverload = cms.PSet(
+            initialSeed = cms.untracked.uint32(82)
+            ),
+    )
+    
+    process.hltCsc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
+                                                  cscRecHitTag = cms.InputTag("hltCsc2DRecHits"),
+                                                  failureRate = cms.untracked.double(0.15),
+                                                  doUniformFailure = cms.untracked.bool(True),
+                                                  doCFEBFailure = cms.untracked.bool(True),
+                                                  )
+    
+    # change input to cscSegments
+    process.hltCscSegments.inputObjects = "hltCsc2DRecHitsOverload"
+
+    # make a new collection of reduced rechits and feed those into the csc segment producer
+    process.HLTMuonLocalRecoSequence = cms.Sequence( 
+        process.hltMuonDTDigis + 
+        process.hltDt1DRecHits + 
+        process.hltDt4DSegments + 
+        process.hltMuonCSCDigis + 
+        process.hltCsc2DRecHits + 
+        process.hltCsc2DRecHitsOverload + 
+        process.hltCscSegments + 
+        process.hltMuonRPCDigis + 
+        process.hltRpcRecHits )
+
+    return process
+
 def rpcAging(process):
     # RPC aging
     
@@ -126,7 +159,7 @@ def applyAgingToL2Mu(process):
     # so we need to pass the reduced collection (csc2DRecHitsOverload) to the hltCSCSegments
     # this is already done in the aging functions above, so we only need to change the inputs
     # to the L2Mu reconstruction
-    process.hltL2Muons.L2TrajBuilderParameters.FilterParameters.CSCRecSegmentLabel = 'cscSegments' 
+    process = hltCscAging(process)
 
     # DT
     # The aging is applied to the digis
