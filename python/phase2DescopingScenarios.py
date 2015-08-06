@@ -47,16 +47,8 @@ def hltCscAging(process):
     process.hltCscSegments.inputObjects = "hltCsc2DRecHitsOverload"
 
     # make a new collection of reduced rechits and feed those into the csc segment producer
-    process.HLTMuonLocalRecoSequence = cms.Sequence( 
-        process.hltMuonDTDigis + 
-        process.hltDt1DRecHits + 
-        process.hltDt4DSegments + 
-        process.hltMuonCSCDigis + 
-        process.hltCsc2DRecHits + 
-        process.hltCsc2DRecHitsOverload + 
-        process.hltCscSegments + 
-        process.hltMuonRPCDigis + 
-        process.hltRpcRecHits )
+    process.filteredHltSegmentSequence = cms.Sequence(process.hltCsc2DRecHitsOverload + process.hltCscSegments)
+    process.HLTMuonLocalRecoSequence.replace(process.hltCscSegments, process.filteredHltSegmentSequence)
 
     return process
 
