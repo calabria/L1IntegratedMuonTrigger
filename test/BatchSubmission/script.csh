@@ -14,7 +14,7 @@ echo $SCRAM_ARCH
 eval \`scramv1 runtime -csh\`
 
 cmsenv
-cmsRun \$CASA/test_data$1.py >& /lustre/cms/store/user/calabria/HZZ_200MCHF/$1.txt
+cmsRun \$CASA/test_data$1.py >& /lustre/cms/store/user/calabria/HZZ_235MCHF/$1.txt
 
 EOF
 
