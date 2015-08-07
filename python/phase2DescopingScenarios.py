@@ -108,10 +108,10 @@ def loadMuonRecHits(process):
     return process
     
 def runOnlyL2Mu(process):
-    process.HLTSchedule = cms.Schedule( cms.Path( process.HLTL2muonrecoSequence +  process.HLTL2muonrecoSequenceNoVtx))
-    process.HLT_L2MuOnly_v1 = cms.Path( process.HLTL2muonrecoSequence +  process.HLTL2muonrecoSequenceNoVtx)
+    process.HLTSchedule = cms.Schedule( cms.Path( process.HLTBeginSequence + process.HLTL2muonrecoSequence + process.HLTL2muonrecoSequenceNoVtx + process.HLTEndSequence))
+    process.HLT_L2MuOnly_v1 = cms.Path( process.HLTBeginSequence + process.HLTL2muonrecoSequence + process.HLTL2muonrecoSequenceNoVtx + process.HLTEndSequence)
     process.schedule = cms.Schedule( * [process.HLTriggerFirstPath, process.HLT_L2MuOnly_v1, process.HLTriggerFinalPath, process.HLTAnalyzerEndpath, process.endjob_step, process.RECOSIMoutput_step])
-    print process.HLTSchedule, process.schedule
+    process.RECOSIMoutput.outputCommands = cms.untracked.vstring( ('keep *'))
     return process
 
 def fullScopeDetectors(process):
