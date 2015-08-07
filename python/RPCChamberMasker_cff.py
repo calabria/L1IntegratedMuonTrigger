@@ -19,15 +19,31 @@ def appendRPCChamberMaskerAtUnpacking(process, doDigis, maskedRPCs):
 	process.filteredRPCDigiSequence = cms.Sequence(process.preRPCDigis + process.muonRPCDigis)
 #        process.RawToDigi.replace(process.muonRPCDigis, process.filteredDigiSequence)
         process.RawToDigi.replace(process.muonRPCDigis, process.filteredRPCDigiSequence)
-
+    
+    return process
 
 def appendRPCChamberMaskerAtUnpacking2(process, doDigis, maskedRPCs):
 
-        print "[appendChamberMasker] : Found muonRPCDigis, applying filter"
+    print "[appendChamberMasker] : Found muonRPCDigis, applying filter"
+    
+    process.simMuonRPCDigis = RPCChamberMasker.clone()
+    if len(maskedRPCs) > 0 :
+        process.simMuonRPCDigis.maskedRPCIDs = maskedRPCs
+        process.simMuonRPCDigis.digiTag = "simMuonRPCDigis"
+        process.filteredRPCDigiSequence = cms.Sequence(process.simMuonRPCDigis)
+        process.RawToDigi += process.filteredRPCDigiSequence
 
-        process.simMuonRPCDigis = RPCChamberMasker.clone()
-        if len(maskedRPCs) > 0 :
-            process.simMuonRPCDigis.maskedRPCIDs = maskedRPCs
-            process.simMuonRPCDigis.digiTag = "simMuonRPCDigis"
-            process.filteredRPCDigiSequence = cms.Sequence(process.simMuonRPCDigis)
-            process.RawToDigi += process.filteredRPCDigiSequence
+    return process
+
+def appendRPCChamberMaskerAtHLT(process, doDigis, maskedRPCs):
+        
+    print "[appendChamberMasker] : Found hltMuonRPCDigis, applying filter"
+        
+    process.hltMuonRPCDigis = RPCChamberMasker.clone()
+    if len(maskedRPCs) > 0 :
+        process.hltMuonRPCDigis.maskedRPCIDs = maskedRPCs
+        process.hltMuonRPCDigis.digiTag = "hltMuonRPCDigis"
+        process.filteredRPCDigiSequence = cms.Sequence(process.hltMuonRPCDigis)
+        process.HLTMuonLocalRecoSequence += process.filteredRPCDigiSequence
+
+    return process

@@ -41,7 +41,7 @@ def appendChamberMaskerAtUnpacking(process, doDigis, doTrigger, chambRegEx):
         process.dttfDigis.digiTag = cms.InputTag('')
         process.filteredTrigSequence = cms.Sequence(process.preDttfDigis + process.dttfDigis)
         process.RawToDigi.replace(process.dttfDigis, process.filteredTrigSequence)
-
+    return process
         
 def reRunDttf( process ):
 
@@ -95,3 +95,4 @@ def reRunDttf( process ):
         process.AODSIMoutput.outputCommands.extend( ['keep *_dttfDigis_*_*',
                                                      'keep *_dttfTrackDigis_*_*',
                                                      'keep *_gmtDigis_*_*'] )
+    return process
