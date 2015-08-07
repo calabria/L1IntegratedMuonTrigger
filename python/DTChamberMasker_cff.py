@@ -17,6 +17,19 @@ def appendChamberMaskerAtUnpacking(process, doDigis, doTrigger, chambRegEx):
         process.filteredDigiSequence = cms.Sequence(process.preDtDigis + process.muonDTDigis)
         process.RawToDigi.replace(process.muonDTDigis, process.filteredDigiSequence)
 
+    if doDigis and hasattr(process,'hltMuonDTDigis') :
+
+        print "[appendChamberMasker] : Found hltMuonDTDigis, applying filter"
+
+        process.preHltDtDigis = process.hltMuonDTDigis.clone()
+        process.hltMuonDTDigis = DTChamberMasker.clone()
+        if len(chambRegEx) > 0 :
+            process.hltMuonDTDigis.maskedChRegEx = chambRegEx
+        process.hltMuonDTDigis.triggerPrimPhTag = cms.InputTag('')
+        process.hltMuonDTDigis.triggerPrimThTag = cms.InputTag('')
+        process.filteredHltDigiSequence = cms.Sequence(process.preHltDtDigis + process.hltMuonDTDigis)
+        process.HLTMuonLocalRecoSequence.replace(process.hltMuonDTDigis, process.filteredHltDigiSequence)
+
     if doDigis and hasattr(process,'dttfDigis') :
 
         print "[appendChamberMasker] : Found dttfDigis, applying filter"
@@ -28,7 +41,7 @@ def appendChamberMaskerAtUnpacking(process, doDigis, doTrigger, chambRegEx):
         process.dttfDigis.digiTag = cms.InputTag('')
         process.filteredTrigSequence = cms.Sequence(process.preDttfDigis + process.dttfDigis)
         process.RawToDigi.replace(process.dttfDigis, process.filteredTrigSequence)
-
+    return process
         
 def reRunDttf( process ):
 
@@ -82,3 +95,4 @@ def reRunDttf( process ):
         process.AODSIMoutput.outputCommands.extend( ['keep *_dttfDigis_*_*',
                                                      'keep *_dttfTrackDigis_*_*',
                                                      'keep *_gmtDigis_*_*'] )
+    return process
