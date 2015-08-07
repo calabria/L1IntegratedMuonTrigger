@@ -38,12 +38,10 @@ def appendRPCChamberMaskerAtUnpacking2(process, doDigis, maskedRPCs):
 def appendRPCChamberMaskerAtHLT(process, doDigis, maskedRPCs):
         
     print "[appendChamberMasker] : Found hltMuonRPCDigis, applying filter"
-        
+    # overwrite the current RPC digi module
     process.hltMuonRPCDigis = RPCChamberMasker.clone()
     if len(maskedRPCs) > 0 :
         process.hltMuonRPCDigis.maskedRPCIDs = maskedRPCs
-        process.hltMuonRPCDigis.digiTag = "hltMuonRPCDigis"
-        process.filteredRPCDigiSequence = cms.Sequence(process.hltMuonRPCDigis)
-        process.HLTMuonLocalRecoSequence += process.filteredRPCDigiSequence
+        process.hltMuonRPCDigis.digiTag = "simMuonRPCDigis"
 
     return process
