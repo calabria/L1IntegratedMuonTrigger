@@ -107,6 +107,13 @@ def loadMuonRecHits(process):
     process.load('RecoLocalMuon.CSCRecHitD.cscRecHitD_cfi')
     return process
     
+def runOnlyL2Mu(process):
+    process.HLTSchedule = cms.Schedule( cms.Path( process.HLTL2muonrecoSequence +  process.HLTL2muonrecoSequenceNoVtx))
+    process.HLT_L2MuOnly_v1 = cms.Path( process.HLTL2muonrecoSequence +  process.HLTL2muonrecoSequenceNoVtx)
+    process.schedule = cms.Schedule( * [process.HLTriggerFirstPath, process.HLT_L2MuOnly_v1, process.HLTriggerFinalPath, process.HLTAnalyzerEndpath, process.endjob_step, process.RECOSIMoutput_step])
+    print process.HLTSchedule, process.schedule
+    return process
+
 def fullScopeDetectors(process):
     # CSC
     # case 0  :: all detectors in
@@ -175,6 +182,7 @@ def applyAgingToL2Mu(process):
 
 def fullScope(process):
     process = fullScopeDetectors(process)
+    process = runOnlyL2Mu(process)
     return process
 
 def fullScopeAging(process):
@@ -183,6 +191,7 @@ def fullScopeAging(process):
     process = rpcAging(process)
     process = reRunDttf(process)
     process = applyAgingToL2Mu(process)
+    process = runOnlyL2Mu(process)
     return process
  
 def descope235MCHF(process):
@@ -191,6 +200,7 @@ def descope235MCHF(process):
     process = rpcAging(process)
     process = reRunDttf(process)
     process = applyAgingToL2Mu(process)
+    process = runOnlyL2Mu(process)
     return process
 
 def descope200MCHF(process):
@@ -200,5 +210,6 @@ def descope200MCHF(process):
     process = dtAging(process)
     process = reRunDttf(process)
     process = applyAgingToL2Mu(process)
+    process = runOnlyL2Mu(process)
     return process
 
