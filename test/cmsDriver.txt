@@ -1,6 +1,6 @@
 cmsDriver.py step3_fullScope \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_hlt.root \
+--fileout file:out_hlt_fullScope.root \
 --mc \
 --eventcontent RECOSIM \
 --datatier GEN-SIM-RECO \
@@ -15,7 +15,7 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 
 cmsDriver.py step3_fullScopeAging \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_hlt.root \
+--fileout file:out_hlt_fullScopeAging.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -30,7 +30,7 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 
 cmsDriver.py step3_descope235MCHF \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_hlt.root \
+--fileout file:out_hlt_descope235MCHF.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -45,7 +45,7 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 
 cmsDriver.py step3_descope235MCHFaging \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_hlt.root \
+--fileout file:out_hlt_descope235MCHFaging.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -59,7 +59,7 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 -n 10
 
 cmsDriver.py step3_descope200MCHF \
---fileout file:out_hlt.root \
+--fileout file:out_hlt_descope200MCHF.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -74,7 +74,7 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 -n 10
 
 cmsDriver.py step3_descope200MCHFaging \
---fileout file:out_hlt.root \
+--fileout file:out_hlt_descope200MCHFaging.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
