@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.20 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step3_fullScope --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root --fileout file:out_reco.root --mc --eventcontent RECOSIM --datatier GEN-SIM-RECO --conditions PH2_1K_FB_V6::All --step HLT --customise RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.fullScope --magField 38T_PostLS1 --geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco --no_exec -n 10
+# with command line options: step3_fullScope --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root --fileout file:out_hlt.root --mc --eventcontent RECOSIM --datatier GEN-SIM-RECO --conditions PH2_1K_FB_V6::All --step HLT --customise RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.fullScope --magField 38T_PostLS1 --geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco --no_exec -n 1000
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -20,7 +20,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(1000)
 )
 
 # Input source
@@ -36,7 +36,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.20 $'),
-    annotation = cms.untracked.string('step3_fullScope nevts:10'),
+    annotation = cms.untracked.string('step3_fullScope nevts:1000'),
     name = cms.untracked.string('Applications')
 )
 
@@ -46,7 +46,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('file:out_reco.root'),
+    fileName = cms.untracked.string('file:out_hlt.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO')

@@ -1,6 +1,6 @@
 cmsDriver.py step3_fullScope \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_reco.root \
+--fileout file:out_hlt.root \
 --mc \
 --eventcontent RECOSIM \
 --datatier GEN-SIM-RECO \
@@ -11,11 +11,11 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 --magField 38T_PostLS1 \
 --geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
 --no_exec \
--n 10
+-n 1000
 
 cmsDriver.py step3_fullScopeAging \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_reco.root \
+--fileout file:out_hlt.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -28,10 +28,9 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 --no_exec \
 -n 10
 
-
 cmsDriver.py step3_descope235MCHF \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_reco.root \
+--fileout file:out_hlt.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -46,7 +45,7 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 
 cmsDriver.py step3_descope235MCHFaging \
 --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---fileout file:out_reco.root \
+--fileout file:out_hlt.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -59,23 +58,8 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 --no_exec \
 -n 10
 
-cmsDriver.py step3_descope200MCHFaging \
---fileout file:out_reco.root \
---mc \
---eventcontent RECOSIM \
---step HLT \
---customise \
-RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.descope200MCHFaging \
---datatier GEN-SIM-RECO \
---conditions PH2_1K_FB_V6::All \
---magField 38T_PostLS1 \
---filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
---geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
---no_exec \
--n 10
-
 cmsDriver.py step3_descope200MCHF \
---fileout file:out_reco.root \
+--fileout file:out_hlt.root \
 --mc \
 --eventcontent RECOSIM \
 --step HLT \
@@ -88,3 +72,18 @@ RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPando
 --geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
 --no_exec \
 -n 10
+
+cmsDriver.py step3_descope200MCHFaging \
+--fileout file:out_hlt.root \
+--mc \
+--eventcontent RECOSIM \
+--step HLT \
+--customise \
+RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.descope200MCHFaging \
+--datatier GEN-SIM-RECO \
+--conditions PH2_1K_FB_V6::All \
+--magField 38T_PostLS1 \
+--filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root \
+--geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco \
+--no_exec \
+-n 1000
