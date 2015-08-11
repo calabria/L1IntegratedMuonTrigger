@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.20 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: step3 --filein file:out_raw.root --fileout file:out_reco.root --mc --eventcontent RECOSIM --customise RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.descope235MCHF --datatier GEN-SIM-RECO --conditions PH2_1K_FB_V6::All --step RAW2DIGI,L1Reco,RECO,HLT --magField 38T_PostLS1 --geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco --python_filename step3_descope235MCHF_HLT_RECO_cfg.py --no_exec -n 10
+# with command line options: step3_fullScope --filein file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root --fileout file:out_hlt_fullScope.root --mc --eventcontent RECOSIM --datatier GEN-SIM-RECO --conditions PH2_1K_FB_V6::All --step HLT --customise RecoParticleFlow/PandoraTranslator/customizeHGCalPandora_cff.cust_2023HGCalPandoraMuon,Configuration/DataProcessing/Utils.addMonitoring,L1Trigger/L1IntegratedMuonTrigger/phase2DescopingScenarios.fullScope --magField 38T_PostLS1 --geometry Extended2023HGCalMuon,Extended2023HGCalMuonReco --no_exec -n 1000
 import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('HLT')
@@ -15,21 +15,18 @@ process.load('Configuration.EventContent.EventContent_cff')
 process.load('SimGeneral.MixingModule.mixNoPU_cfi')
 process.load('Configuration.Geometry.GeometryExtended2023HGCalMuonReco_cff')
 process.load('Configuration.StandardSequences.MagneticField_38T_PostLS1_cff')
-process.load('Configuration.StandardSequences.RawToDigi_cff')
-process.load('Configuration.StandardSequences.L1Reco_cff')
-process.load('Configuration.StandardSequences.Reconstruction_cff')
 process.load('HLTrigger.Configuration.HLT_GRun_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(1000)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:out_raw.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/d/dildick/public/GEM/MuonPhaseIIScopeDoc/CMSSW_6_2_0_SLHC26_patch3/src/001B71CC-0F38-E511-BEE2-002618943918.root')
 )
 
 process.options = cms.untracked.PSet(
@@ -39,7 +36,7 @@ process.options = cms.untracked.PSet(
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
     version = cms.untracked.string('$Revision: 1.20 $'),
-    annotation = cms.untracked.string('step3 nevts:10'),
+    annotation = cms.untracked.string('step3_fullScope nevts:1000'),
     name = cms.untracked.string('Applications')
 )
 
@@ -49,7 +46,7 @@ process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RECOSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('file:out_reco.root'),
+    fileName = cms.untracked.string('file:out_hlt_fullScope.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RECO')
@@ -63,14 +60,11 @@ from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'PH2_1K_FB_V6::All', '')
 
 # Path and EndPath definitions
-process.raw2digi_step = cms.Path(process.RawToDigi)
-process.L1Reco_step = cms.Path(process.L1Reco)
-process.reconstruction_step = cms.Path(process.reconstruction)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)
 
 # Schedule definition
-process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,process.reconstruction_step)
+process.schedule = cms.Schedule()
 process.schedule.extend(process.HLTSchedule)
 process.schedule.extend([process.endjob_step,process.RECOSIMoutput_step])
 
@@ -95,9 +89,9 @@ from Configuration.DataProcessing.Utils import addMonitoring
 process = addMonitoring(process)
 
 # Automatic addition of the customisation function from L1Trigger.L1IntegratedMuonTrigger.phase2DescopingScenarios
-from L1Trigger.L1IntegratedMuonTrigger.phase2DescopingScenarios import descope235MCHF 
+from L1Trigger.L1IntegratedMuonTrigger.phase2DescopingScenarios import fullScope 
 
-#call to customisation function descope235MCHF imported from L1Trigger.L1IntegratedMuonTrigger.phase2DescopingScenarios
-process = descope235MCHF(process)
+#call to customisation function fullScope imported from L1Trigger.L1IntegratedMuonTrigger.phase2DescopingScenarios
+process = fullScope(process)
 
 # End of customisation functions

@@ -31,25 +31,25 @@ def hltCscAging(process):
     # CSC aging
     
     process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
-            hltCsc2DRecHitsOverload = cms.PSet(
+                                                       hltCsc2DRecHitsOverload = cms.PSet(
             initialSeed = cms.untracked.uint32(82)
             ),
-    )
+                                                       )
     
     process.hltCsc2DRecHitsOverload = cms.EDProducer('CFEBBufferOverloadProducer',
-                                                  cscRecHitTag = cms.InputTag("hltCsc2DRecHits"),
-                                                  failureRate = cms.untracked.double(0.15),
-                                                  doUniformFailure = cms.untracked.bool(True),
-                                                  doCFEBFailure = cms.untracked.bool(True),
-                                                  )
+                                                     cscRecHitTag = cms.InputTag("hltCsc2DRecHits"),
+                                                     failureRate = cms.untracked.double(0.15),
+                                                     doUniformFailure = cms.untracked.bool(True),
+                                                     doCFEBFailure = cms.untracked.bool(True),
+                                                     )
     
     # change input to cscSegments
     process.hltCscSegments.inputObjects = "hltCsc2DRecHitsOverload"
 
     # make a new collection of reduced rechits and feed those into the csc segment producer
-    process.filteredHltSegmentSequence = cms.Sequence(process.hltCsc2DRecHitsOverload + process.hltCscSegments)
-    process.HLTMuonLocalRecoSequence.replace(process.hltCscSegments, process.filteredHltSegmentSequence)
-
+    process.filteredHltCscSegmentSequence = cms.Sequence(process.hltCsc2DRecHitsOverload + process.hltCscSegments)
+    process.HLTMuonLocalRecoSequence.replace(process.hltCscSegments, process.filteredHltCscSegmentSequence)
+    
     return process
 
 def rpcAging(process):
@@ -101,6 +101,33 @@ def dtAging(process):
     ])
     return process
 
+def hltDtAging(process):
+    # DT aging
+
+    from L1Trigger.L1IntegratedMuonTrigger.DTChamberMasker_cff import appendChamberMaskerAtHLT
+    process = appendChamberMaskerAtHLT(process,True,True,[
+    # MB4 of top sectors
+    "WH-2_ST4_SEC2","WH-2_ST4_SEC3","WH-2_ST4_SEC4","WH-2_ST4_SEC5","WH-2_ST4_SEC6",
+    "WH-1_ST4_SEC2","WH-1_ST4_SEC3","WH-1_ST4_SEC4","WH-1_ST4_SEC5","WH-1_ST4_SEC6",
+    "WH0_ST4_SEC2","WH0_ST4_SEC3","WH0_ST4_SEC4","WH0_ST4_SEC5","WH0_ST4_SEC6",
+    "WH1_ST4_SEC2","WH1_ST4_SEC3","WH1_ST4_SEC4","WH1_ST4_SEC5","WH1_ST4_SEC6",
+    "WH2_ST4_SEC2","WH2_ST4_SEC3","WH2_ST4_SEC4","WH2_ST4_SEC5","WH2_ST4_SEC6",
+    # MB1 of external wheels
+    "WH-2_ST1_SEC1","WH-2_ST1_SEC2","WH-2_ST1_SEC3","WH-2_ST1_SEC4",
+    "WH-2_ST1_SEC5","WH-2_ST1_SEC6","WH-2_ST1_SEC7","WH-2_ST1_SEC8",
+    "WH-2_ST1_SEC9","WH-2_ST1_SEC10","WH-2_ST1_SEC11","WH-2_ST1_SEC12",
+    "WH2_ST1_SEC1","WH2_ST1_SEC2","WH2_ST1_SEC3","WH2_ST1_SEC4",
+    "WH2_ST1_SEC5","WH2_ST1_SEC6","WH2_ST1_SEC7","WH2_ST1_SEC8",
+    "WH2_ST1_SEC9","WH2_ST1_SEC10","WH2_ST1_SEC11","WH2_ST1_SEC12",
+    # 5 MB2s of external wheels
+    "WH2_ST2_SEC3","WH2_ST2_SEC6","WH2_ST2_SEC9",
+    "WH-2_ST2_SEC2","WH-2_ST2_SEC4",
+    # more sparse failures
+    "WH-2_ST2_SEC8","WH-1_ST1_SEC1","WH-1_ST2_SEC1","WH-1_ST1_SEC4","WH-1_ST3_SEC7",
+    "WH0_ST2_SEC2","WH0_ST3_SEC5","WH0_ST4_SEC12","WH1_ST1_SEC6","WH1_ST1_SEC10","WH1_ST3_SEC3"
+    ])
+    return process
+
 def loadMuonRecHits(process):
     process.load('RecoLocalMuon.RPCRecHit.rpcRecHits_cfi')
     process.load('RecoLocalMuon.GEMRecHit.gemRecHits_cfi')
@@ -111,7 +138,35 @@ def runOnlyL2Mu(process):
     process.HLTSchedule = cms.Schedule( cms.Path( process.HLTBeginSequence + process.HLTL2muonrecoSequence + process.HLTL2muonrecoSequenceNoVtx + process.HLTEndSequence))
     process.HLT_L2MuOnly_v1 = cms.Path( process.HLTBeginSequence + process.HLTL2muonrecoSequence + process.HLTL2muonrecoSequenceNoVtx + process.HLTEndSequence)
     process.schedule = cms.Schedule( * [process.HLTriggerFirstPath, process.HLT_L2MuOnly_v1, process.HLTriggerFinalPath, process.HLTAnalyzerEndpath, process.endjob_step, process.RECOSIMoutput_step])
-    process.RECOSIMoutput.outputCommands = cms.untracked.vstring( ('keep *'))
+    process.RECOSIMoutput.outputCommands = cms.untracked.vstring( (
+            'keep *',
+            'drop *_mix_*_*',
+            'drop *_simSiPixelDigis_*_*',
+            'drop *_simSiStripDigis_*_*',
+            'drop *_*_HGCHitsEE_*',
+            'drop *_*_TrackerHitsPixel*_*',
+            'drop *_*_EcalHitsEB_*',
+            'drop *_*_EcalHitsEE_*',
+            'drop *_simHcal*_*_*',
+            'drop *_simEcal**_*_*',
+            'drop *_*_HcalHits_*',
+            'drop *_*_BSCHits_*',
+            'drop PCaloHits_*_*_*',
+            'drop *_hltGctDigis_*_*',
+            'drop *_*GenJets_*_*',
+            'drop *_simGctDigis_*_*',
+            'drop *_hltScalersRawToDigi_*_*',
+            'drop *_*_TrackerHits*_*',
+            'drop *_genMet*_*_*',
+            'drop *_*_TotemHits*_*',
+            'drop *_*_FastTimerHits_*',
+            'drop *_*_BHMHits_*',
+            'drop *_*_FP420SI_*',
+            'drop *_*_PLTHits_*',
+            'drop *_rawDataCollector_*_*',
+            'drop *_randomEngineStateProducer_*_*',
+            )
+    )
     return process
 
 def fullScopeDetectors(process):
@@ -142,6 +197,14 @@ def fullScopeDetectors(process):
     process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
     return process
 
+def descope235MCHFDetectors(process):
+    #235 MCHF: RE3/1 + RE4/1 switched off
+    process = loadMuonRecHits(process)
+    process.csc2DRecHits.stationToUse = cms.untracked.int32(0)
+    process.rpcRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(0)
+    process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
+    return process
+
 def descope200MCHFDetectors(process):
     #200 MCHF: GE2/1 + RE3/1 + RE4/1 switched off
     process = loadMuonRecHits(process)
@@ -150,12 +213,22 @@ def descope200MCHFDetectors(process):
     process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(1)
     return process
 
-def descope235MCHFDetectors(process):
-    #235 MCHF: RE3/1 + RE4/1 switched off
-    process = loadMuonRecHits(process)
-    process.csc2DRecHits.stationToUse = cms.untracked.int32(0)
-    process.rpcRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(0)
-    process.gemRecHits.recAlgoConfig.stationToUse = cms.untracked.int32(3)
+def applyAgingToL2MuNoDT(process):
+
+    if hasattr(process,'HLTMuonLocalRecoSequence') :
+        # RPC
+        # The aging for the RPC system is applied to the digis
+        # but the packing/unpacking does not work
+        # so we need to pass the simMuonRPCDigis to the hltRpcRecHits
+        process = hltRpcAging(process)
+        
+        # CSC
+        # The aging is applied to the rechits
+        # so we need to pass the reduced collection (csc2DRecHitsOverload) to the hltCSCSegments
+        # this is already done in the aging functions above, so we only need to change the inputs
+        # to the L2Mu reconstruction
+        process = hltCscAging(process)
+
     return process
 
 def applyAgingToL2Mu(process):
@@ -177,7 +250,8 @@ def applyAgingToL2Mu(process):
         # DT
         # The aging is applied to the digis
         # We assume the packing/unpacking works, so nothing needs to be done
-    
+        process = hltDtAging(process)
+
     return process
 
 def fullScope(process):
@@ -185,31 +259,32 @@ def fullScope(process):
     process = runOnlyL2Mu(process)
     return process
 
-def fullScopeAging(process):
-    process = fullScopeDetectors(process)
-    process = cscAging(process)
-    process = rpcAging(process)
-    process = reRunDttf(process)
-    process = applyAgingToL2Mu(process)
-    process = runOnlyL2Mu(process)
-    return process
- 
 def descope235MCHF(process):
     process = descope235MCHFDetectors(process)
-    process = cscAging(process)
-    process = rpcAging(process)
-    process = reRunDttf(process)
-    process = applyAgingToL2Mu(process)
     process = runOnlyL2Mu(process)
     return process
 
 def descope200MCHF(process):
     process = descope200MCHFDetectors(process)
-    process = cscAging(process)
-    process = rpcAging(process)
-    process = dtAging(process)
-    process = reRunDttf(process)
-    process = applyAgingToL2Mu(process)
     process = runOnlyL2Mu(process)
     return process
 
+
+
+def fullScopeAging(process):
+    process = fullScopeDetectors(process)
+    process = runOnlyL2Mu(process)
+    process = applyAgingToL2MuNoDT(process)
+    return process
+ 
+def descope235MCHFaging(process):
+    process = descope235MCHFDetectors(process)
+    process = runOnlyL2Mu(process)
+    process = applyAgingToL2MuNoDT(process)
+    return process
+
+def descope200MCHFaging(process):
+    process = descope200MCHFDetectors(process)
+    process = runOnlyL2Mu(process)
+    process = applyAgingToL2Mu(process)
+    return process
