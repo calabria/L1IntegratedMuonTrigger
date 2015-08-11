@@ -138,7 +138,35 @@ def runOnlyL2Mu(process):
     process.HLTSchedule = cms.Schedule( cms.Path( process.HLTBeginSequence + process.HLTL2muonrecoSequence + process.HLTL2muonrecoSequenceNoVtx + process.HLTEndSequence))
     process.HLT_L2MuOnly_v1 = cms.Path( process.HLTBeginSequence + process.HLTL2muonrecoSequence + process.HLTL2muonrecoSequenceNoVtx + process.HLTEndSequence)
     process.schedule = cms.Schedule( * [process.HLTriggerFirstPath, process.HLT_L2MuOnly_v1, process.HLTriggerFinalPath, process.HLTAnalyzerEndpath, process.endjob_step, process.RECOSIMoutput_step])
-    process.RECOSIMoutput.outputCommands = cms.untracked.vstring( ('keep *'))
+    process.RECOSIMoutput.outputCommands = cms.untracked.vstring( (
+            'keep *',
+            'drop *_mix_*_*',
+            'drop *_simSiPixelDigis_*_*',
+            'drop *_simSiStripDigis_*_*',
+            'drop *_*_HGCHitsEE_*',
+            'drop *_*_TrackerHitsPixel*_*',
+            'drop *_*_EcalHitsEB_*',
+            'drop *_*_EcalHitsEE_*',
+            'drop *_simHcal*_*_*',
+            'drop *_simEcal**_*_*',
+            'drop *_*_HcalHits_*',
+            'drop *_*_BSCHits_*',
+            'drop PCaloHits_*_*_*',
+            'drop *_hltGctDigis_*_*',
+            'drop *_*GenJets_*_*',
+            'drop *_simGctDigis_*_*',
+            'drop *_hltScalersRawToDigi_*_*',
+            'drop *_*_TrackerHits*_*',
+            'drop *_genMet*_*_*',
+            'drop *_*_TotemHits*_*',
+            'drop *_*_FastTimerHits_*',
+            'drop *_*_BHMHits_*',
+            'drop *_*_FP420SI_*',
+            'drop *_*_PLTHits_*',
+            'drop *_rawDataCollector_*_*',
+            'drop *_randomEngineStateProducer_*_*',
+            )
+    )
     return process
 
 def fullScopeDetectors(process):
